@@ -6,6 +6,6 @@ public class MyG {
                 "____________________________________________________________\n" +
                 " Bye. Hope to see you again soon!\n" +
                 "____________________________________________________________\n";
-        System.out.println("Hello from\n" + intro);
+        System.out.println(intro);
     }
 }
