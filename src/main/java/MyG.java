@@ -7,9 +7,7 @@ public class MyG {
                 "____________________________________________________________\n" +
                 " Hello! I'm MyG\n" +
                 " What can I do for you?\n";
-        String list =
-                "    ____________________________________________________________\n" +
-                "     list\n" +
+        String listMsg =
                 "    ____________________________________________________________";
         String blah =
                 "    ____________________________________________________________\n" +
@@ -19,6 +17,10 @@ public class MyG {
                 "    ____________________________________________________________\n" +
                 "     Bye. Hope to see you again soon!\n" +
                 "    ____________________________________________________________";
+
+        // create storage for list
+        String[] tasks = new String[100];
+        int taskCount = 0;
 
         // Logic and flow control blocks
         System.out.println(intro);
@@ -30,9 +32,29 @@ public class MyG {
                 System.out.println(bye);
                 break;
             } else if (line.equalsIgnoreCase("list")) {
-                System.out.println(list);
+                System.out.println(listMsg);
+                if (taskCount == 0) {
+                    System.out.println("No tasks yet.");
+                } else {
+                    for (int i = 0; i < taskCount; i++) {
+                        System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                    }
+                }
+                System.out.println(listMsg);
             }  else if (line.equalsIgnoreCase("blah")) {
                 System.out.println(blah);
+            } else {
+                // store inputs
+                if (taskCount < 100) {
+                    tasks[taskCount++] = line;
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" added: " + line);
+                    System.out.println("____________________________________________________________");
+                } else {
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Task list full! Cannot add more.");
+                    System.out.println("____________________________________________________________");
+                }
             }
         }
     }
