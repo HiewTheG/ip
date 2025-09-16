@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import  java.util.ArrayList;
 
 public class MyG {
     public static void main(String[] args) {
@@ -20,7 +19,7 @@ public class MyG {
                 "    ____________________________________________________________";
 
         // Create storage for list of tasks
-        ArrayList<String> tasks = new ArrayList<>();
+        String[] tasks = new String[100];
         int taskCount = 0;
 
         // Logic and flow control blocks
