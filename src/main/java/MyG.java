@@ -9,18 +9,13 @@ public class MyG {
                 " What can I do for you?\n";
         String listMsg =
                 "    ____________________________________________________________";
-        String blah =
-                "    ____________________________________________________________\n" +
-                "     blah\n" +
-                "    ____________________________________________________________\n";
         String bye =
                 "    ____________________________________________________________\n" +
                 "     Bye. Hope to see you again soon!\n" +
                 "    ____________________________________________________________";
 
         /** ---------------- Storage for tasks ---------------- */
-        String[] tasks = new String[100];
-        Task[] taskObjects = new Task[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         /** ---------------- Start of program ---------------- */
@@ -28,7 +23,7 @@ public class MyG {
         Scanner input = new Scanner(System.in);
 
         while (true) {
-            String line = input.nextLine(); // Read user input
+            String line = input.nextLine().trim(); // Read user input
 
             /** Exit command */
             if (line.equalsIgnoreCase("bye")) {
@@ -43,24 +38,20 @@ public class MyG {
                 } else {
                     // Print all tasks with their done/not done status
                     for (int i = 0; i < taskCount; i++) {
-                        System.out.println(" " + (i + 1) + ". [" + taskObjects[i].getStatusIcon() + "] " + tasks[i]);
+                        System.out.println(" " + (i + 1) + "." + tasks[i]);
                     }
                 }
                 System.out.println(listMsg);
             }
-            /** Placeholder command */
-            else if (line.equalsIgnoreCase("blah")) {
-                System.out.println(blah);
-            }
             /** Mark a task as done */
-            else if (line.startsWith("mark")) {
+            else if (line.startsWith("mark ")) {
                 try {
                     int index = Integer.parseInt(line.split(" ")[1]) - 1;
                     if (index >= 0 && index < taskCount) {
-                        taskObjects[index].markAsDone();
+                        tasks[index].markAsDone();
                         System.out.println("____________________________________________________________");
                         System.out.println(" Nice! I've marked this task as done:");
-                        System.out.println("  [" + taskObjects[index].getStatusIcon() + "] " + taskObjects[index].getDescription());
+                        System.out.println("  [" + tasks[index]);
                         System.out.println("____________________________________________________________");
                     } else {
                         System.out.println("Invalid task number.");
@@ -70,14 +61,14 @@ public class MyG {
                 }
             }
             /** Unmark a task */
-            else if (line.startsWith("unmark")) {
+            else if (line.startsWith("unmark ")) {
                 try {
                     int index = Integer.parseInt(line.split(" ")[1]) - 1;
                     if (index >= 0 && index < taskCount) {
-                        taskObjects[index].unmark();
+                        tasks[index].unmark();
                         System.out.println("____________________________________________________________");
                         System.out.println(" Aight bro, I've marked this task as not done yet:");
-                        System.out.println("  [" + taskObjects[index].getStatusIcon() + "] " + taskObjects[index].getDescription());
+                        System.out.println("  [" + tasks[index]);
                         System.out.println("____________________________________________________________");
                     } else {
                         System.out.println("Invalid task number.");
@@ -86,20 +77,53 @@ public class MyG {
                     System.out.println("Invalid input for unmark command.");
                 }
             }
-            /** Add a new task */
-            else {
-                if (taskCount < 100) {
-                    tasks[taskCount] = line; // Store description
-                    taskObjects[taskCount] = new Task(line); // create Task object
-                    taskCount++;
+            /** Add Todo */
+            else if (line.startsWith("todo ")) {
+                String desc = line.substring(5);
+                tasks[taskCount++] = new Todo(desc);
+                System.out.println("____________________________________________________________");
+                System.out.println("Aight bro I got you. I've added this task");
+                System.out.println(" " + tasks[taskCount - 1]);
+                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                System.out.println("____________________________________________________________");
+            }
+            /** Add a Deadline */
+            else if (line.startsWith("deadline ")) {
+                try {
+                    String[] parts = line.substring(9).split(" /by", 2);
+                    String desc = parts[0];
+                    String by = parts[1];
+                    tasks[taskCount++] = new Deadline(desc, by);
                     System.out.println("____________________________________________________________");
-                    System.out.println(" added: " + line);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(" " + tasks[taskCount - 1]);
+                    System.out.println("Now you have " + taskCount + " tasks in the list.");
                     System.out.println("____________________________________________________________");
-                } else {
-                    System.out.println("____________________________________________________________");
-                    System.out.println("Task list full! Cannot add more.");
-                    System.out.println("____________________________________________________________");
+                } catch (Exception e) {
+                    System.out.println("Your deadline format is invalid. Pls use: deadline <desc> /by <time>");
                 }
+            }
+            /** Add an Event */
+            else if (line.startsWith("event ")) {
+                try {
+                    String[] parts1 = line.substring(6).split(" /from", 2);
+                    String desc = parts1[0];
+                    String[] parts2 = parts1[1].split(" /to ", 2);
+                    String from = parts2[0];
+                    String to = parts2[1];
+                    tasks[taskCount++] = new Event(desc, from, to);
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(" " + tasks[taskCount - 1]);
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                } catch (Exception e) {
+                    System.out.println("Your event format is invalid. Pls use: event <desc> /from <start> /to <end>");
+                }
+            }
+            /** Unknown command */
+            else {
+                System.out.println("Invalid command: " + line);
             }
         }
     }
