@@ -5,7 +5,7 @@ public class MyG {
         /** ---------------- Response blocks ---------------- */
         String intro =
                 "____________________________________________________________\n" +
-                " Hello! I'm MyG\n" +
+                " What's good MyG\n" +
                 " What can I do for you?\n";
         String listMsg =
                 "    ____________________________________________________________";
