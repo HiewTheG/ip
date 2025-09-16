@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import  java.util.ArrayList;
 
 public class MyG {
     public static void main(String[] args) {
@@ -18,8 +19,8 @@ public class MyG {
                 "     Bye. Hope to see you again soon!\n" +
                 "    ____________________________________________________________";
 
-        // create storage for list
-        String[] tasks = new String[100];
+        // Create storage for list of tasks
+        ArrayList<String> tasks = new ArrayList<>();
         int taskCount = 0;
 
         // Logic and flow control blocks
