@@ -69,6 +69,23 @@ public class MyG {
                     System.out.println("Invalid input for mark command.");
                 }
             }
+            /** Unmark a task */
+            else if (line.startsWith("unmark")) {
+                try {
+                    int index = Integer.parseInt(line.split(" ")[1]) - 1;
+                    if (index >= 0 && index < taskCount) {
+                        taskObjects[index].unmark();
+                        System.out.println("____________________________________________________________");
+                        System.out.println(" Aight bro, I've marked this task as not done yet:");
+                        System.out.println("  [" + taskObjects[index].getStatusIcon() + "] " + taskObjects[index].getDescription());
+                        System.out.println("____________________________________________________________");
+                    } else {
+                        System.out.println("Invalid task number.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input for unmark command.");
+                }
+            }
             /** Add a new task */
             else {
                 if (taskCount < 100) {
