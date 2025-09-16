@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class MyG {
     public static void main(String[] args) {
-        /** Response blocks */
+        /** ---------------- Response blocks ---------------- */
         String intro =
                 "____________________________________________________________\n" +
                 " Hello! I'm MyG\n" +
@@ -18,33 +18,42 @@ public class MyG {
                 "     Bye. Hope to see you again soon!\n" +
                 "    ____________________________________________________________";
 
-        /** Storage for tasks */
+        /** ---------------- Storage for tasks ---------------- */
         String[] tasks = new String[100];
         Task[] taskObjects = new Task[100];
         int taskCount = 0;
 
-        /** Logic and flow control blocks */
+        /** ---------------- Start of program ---------------- */
         System.out.println(intro);
         Scanner input = new Scanner(System.in);
 
         while (true) {
-            String line = input.nextLine();
+            String line = input.nextLine(); // Read user input
+
+            /** Exit command */
             if (line.equalsIgnoreCase("bye")) {
                 System.out.println(bye);
                 break;
-            } else if (line.equalsIgnoreCase("list")) {
+            }
+            /** List command */
+            else if (line.equalsIgnoreCase("list")) {
                 System.out.println(listMsg);
                 if (taskCount == 0) {
                     System.out.println("No tasks yet.");
                 } else {
+                    // Print all tasks with their done/not done status
                     for (int i = 0; i < taskCount; i++) {
                         System.out.println(" " + (i + 1) + ". [" + taskObjects[i].getStatusIcon() + "] " + tasks[i]);
                     }
                 }
                 System.out.println(listMsg);
-            }  else if (line.equalsIgnoreCase("blah")) {
+            }
+            /** Placeholder command */
+            else if (line.equalsIgnoreCase("blah")) {
                 System.out.println(blah);
-            } else if (line.startsWith("mark")) {
+            }
+            /** Mark a task as done */
+            else if (line.startsWith("mark")) {
                 try {
                     int index = Integer.parseInt(line.split(" ")[1]) - 1;
                     if (index >= 0 && index < taskCount) {
@@ -60,11 +69,11 @@ public class MyG {
                     System.out.println("Invalid input for mark command.");
                 }
             }
+            /** Add a new task */
             else {
-                // store new task
                 if (taskCount < 100) {
-                    tasks[taskCount] = line;
-                    taskObjects[taskCount] = new Task(line);
+                    tasks[taskCount] = line; // Store description
+                    taskObjects[taskCount] = new Task(line); // create Task object
                     taskCount++;
                     System.out.println("____________________________________________________________");
                     System.out.println(" added: " + line);
