@@ -143,6 +143,32 @@ public class MyG {
                     System.out.println("  " + tasks[index]);
                     System.out.println("____________________________________________________________");
                 }
+                else if (line.toLowerCase().startsWith("delete ")) {
+                    String[] parts = line.split("\\s+", 2);
+                    if (parts.length < 2 || parts[1].trim().isEmpty()) {
+                        throw new MyGException("OOPS!!! Please provide the task number to delete.");
+                    }
+                    int index;
+                    try {
+                        index = Integer.parseInt(parts[1].trim()) - 1;
+                    } catch (NumberFormatException nfe) {
+                        throw new MyGException("OOPS!!! Task number must be an integer.");
+                    }
+                    if (index < 0 || index >= taskCount) {
+                        throw new MyGException("OOPS!!! That task number doesn't exist.");
+                    }
+                    Task removed = tasks[index];
+                    // Shift all tasks down
+                    for (int i = index; i < taskCount - 1; i++) {
+                        tasks[i] = tasks[i + 1];
+                    }
+                    tasks[--taskCount] = null;
+                    System.out.println("____________________________________________________________");
+                    System.out.println("Removed this task:");
+                    System.out.println("  " + removed);
+                    System.out.println("Now you have " + taskCount + " tasks in the list.");
+                    System.out.println("____________________________________________________________");
+                }
                 else {
                     throw new MyGException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
