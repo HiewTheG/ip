@@ -188,4 +188,13 @@ public class MyG {
         System.out.println(" " + message);
         System.out.println("____________________________________________________________");
     }
+
+    /** ---------------- Helper methods for file I/O ---------------- */
+    // Parse a task line from file into a Task object
+    private static Task parseTaskFromFile(String line) throws MyGException {
+        // Format: TYPE | isDone | desc | by/from/to
+        // Example: T|1|Buy milk
+        // Example: D|0|Submit homework|2025-10-01
+        // Example: E|1|Party|2025-10-01|2025-10-02
+    }
 }
