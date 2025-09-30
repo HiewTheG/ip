@@ -4,11 +4,11 @@ public class Event extends Task {
 
     public Event(String description, String from, String to) throws MyGException {
         super(description);
-        if (from == null || to == null) {
+        if (from == null || from.trim().isEmpty() || to == null ||  to.trim().isEmpty()) {
             throw new MyGException("Oops, Event must have /from and /to dates/times.");
         }
-        this.from = from;
-        this.to = to;
+        this.from = from.trim();
+        this.to = to.trim();
     }
 
     @Override
