@@ -3,6 +3,9 @@ package myg;
 import java.util.Scanner;
 
 public class MyG {
+    private static final String DATA_DIR = "data";
+    private static final String TASK_FILE = "data/myg.txt";
+
     public static void main(String[] args) {
         /** ---------------- Response blocks ---------------- */
         String intro =
@@ -20,6 +23,24 @@ public class MyG {
         Task[] tasks = new Task[100];
         int taskCount = 0;
 
+        /** ---------------- Load tasks from file ---------------- */
+        File dir = new File(DATA_DIR);
+        if (!dir.exists()) {
+            dir.mkdir(); // create data folder if not exists
+        }
+        File file = new File(TASK_FILE);
+        if (file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    Task t = parseTaskFromFile(line); // <-- helper method
+                    if (t != null) tasks[taskCount++] = t;
+                }
+            } catch (IOException | MyGException e) {
+                System.out.println("Failed to load tasks: " + e.getMessage());
+            }
+        }
+
         /** ---------------- Start of program ---------------- */
         System.out.println(intro);
         Scanner input = new Scanner(System.in);
@@ -30,6 +51,7 @@ public class MyG {
             try {
                 if (line.equalsIgnoreCase("bye")) {
                     System.out.println(bye);
+                    saveTasks(tasks, taskCount);
                     break;
                 }
                 else if (line.equalsIgnoreCase("list")) {
@@ -57,6 +79,7 @@ public class MyG {
                     System.out.println(" " + tasks[taskCount - 1]);
                     System.out.println("Now you have " + taskCount + " tasks in the list.");
                     System.out.println("____________________________________________________________");
+                    saveTasks(tasks, taskCount);
                 }
                 else if (line.toLowerCase().startsWith("deadline")) {
                     if (line.equalsIgnoreCase("deadline")) {
@@ -78,6 +101,7 @@ public class MyG {
                     System.out.println(" " + tasks[taskCount - 1]);
                     System.out.println("Now you have " + taskCount + " tasks in the list.");
                     System.out.println("____________________________________________________________");
+                    save(tasks, taskCount);
                 }
                 else if (line.toLowerCase().startsWith("event")) {
                     if (line.equalsIgnoreCase("event")) {
@@ -102,6 +126,7 @@ public class MyG {
                     System.out.println(" " + tasks[taskCount - 1]);
                     System.out.println(" Now you have " + taskCount + " tasks in the list.");
                     System.out.println("____________________________________________________________");
+                    saveTasks(tasks, taskCount);
                 }
                 else if (line.toLowerCase().startsWith("mark ")) {
                     String[] parts = line.split("\\s+", 2);
@@ -122,6 +147,7 @@ public class MyG {
                     System.out.println(" Nice! I've marked this task as done:");
                     System.out.println("  " + tasks[index]);
                     System.out.println("____________________________________________________________");
+                    saveTasks(tasks, taskCount);
                 }
                 else if (line.toLowerCase().startsWith("unmark ")) {
                     String[] parts = line.split("\\s+", 2);
@@ -142,6 +168,7 @@ public class MyG {
                     System.out.println(" Aight bro, I've marked this task as not done yet:");
                     System.out.println("  " + tasks[index]);
                     System.out.println("____________________________________________________________");
+                    save(tasks, taskCount);
                 }
                 else {
                     throw new MyGException("OOPS!!! I'm sorry, but I don't know what that means :-(");
