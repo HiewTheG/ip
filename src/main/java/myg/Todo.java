@@ -1,3 +1,5 @@
+package myg;
+
 public class Todo extends Task {
     public Todo(String description) throws MyGException {
         super(description);

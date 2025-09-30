@@ -1,3 +1,5 @@
+package myg;
+
 import java.util.Scanner;
 
 public class MyG {
@@ -5,7 +7,7 @@ public class MyG {
         /** ---------------- Response blocks ---------------- */
         String intro =
                 "____________________________________________________________\n" +
-                        " What's good MyG\n" +
+                        " What's good myg.MyG\n" +
                         " What can I do for you?\n";
         String listMsg =
                 "    ____________________________________________________________";
@@ -68,7 +70,7 @@ public class MyG {
                     String desc = rest.substring(0, byIndex).trim();
                     String by = rest.substring(byIndex + 3).trim();
                     if (desc.isEmpty() || by.isEmpty()) {
-                        throw new MyGException("OOPS!!! Deadline needs a non-empty description and a /by time.");
+                        throw new MyGException("OOPS!!! myg.Deadline needs a non-empty description and a /by time.");
                     }
                     tasks[taskCount++] = new Deadline(desc, by);
                     System.out.println("____________________________________________________________");
@@ -92,7 +94,7 @@ public class MyG {
                     String from = rest.substring(fromIndex + 5, toIndex).trim();
                     String to = rest.substring(toIndex + 3).trim();
                     if (desc.isEmpty() || from.isEmpty() || to.isEmpty()) {
-                        throw new MyGException("OOPS!!! Event needs a non-empty description, /from and /to.");
+                        throw new MyGException("OOPS!!! myg.Event needs a non-empty description, /from and /to.");
                     }
                     tasks[taskCount++] = new Event(desc, from, to);
                     System.out.println("____________________________________________________________");
@@ -110,7 +112,7 @@ public class MyG {
                     try {
                         index = Integer.parseInt(parts[1].trim()) - 1;
                     } catch (NumberFormatException nfe) {
-                        throw new MyGException("OOPS!!! Task number must be an integer.");
+                        throw new MyGException("OOPS!!! myg.Task number must be an integer.");
                     }
                     if (index < 0 || index >= taskCount) {
                         throw new MyGException("OOPS!!! That task number doesn't exist.");
@@ -130,7 +132,7 @@ public class MyG {
                     try {
                         index = Integer.parseInt(parts[1].trim()) - 1;
                     } catch (NumberFormatException nfe) {
-                        throw new MyGException("OOPS!!! Task number must be an integer.");
+                        throw new MyGException("OOPS!!! myg.Task number must be an integer.");
                     }
                     if (index < 0 || index >= taskCount) {
                         throw new MyGException("OOPS!!! That task number doesn't exist.");
