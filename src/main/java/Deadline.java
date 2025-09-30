@@ -3,10 +3,10 @@ public class Deadline extends Task {
 
     public Deadline(String description, String by) throws MyGException {
         super(description);
-        if (by == null) {
+        if (by == null || by.trim().isEmpty()) {
             throw new MyGException("Oops, Deadline must have a /by date/time");
         }
-        this.by = by;
+        this.by = by.trim();
     }
 
     @Override
