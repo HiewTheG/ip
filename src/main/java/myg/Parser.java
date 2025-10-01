@@ -73,6 +73,20 @@ public class Parser {
         return false;
     }
 
+    private static void handleFind(TaskList matchingTasks, Ui ui) {
+        ui.showLine();
+        if (matchingTasks.size() == 0) {
+            System.out.println(" No matching tasks found.");
+        } else {
+            System.out.println(" Here are the matching tasks in your list:");
+            List<Task> tasks = matchingTasks.getTasks();
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println(" " + (i + 1) + "." + tasks.get(i));
+            }
+        }
+        ui.showLine();
+    }
+
     private static void handleDeadline(String arguments, TaskList tasks, Ui ui, Storage storage) throws MyGException {
         int byIndex = arguments.toLowerCase().indexOf("/by");
         if (byIndex == -1) {
