@@ -41,6 +41,27 @@ public class TaskList {
     }
 
     /**
+     * Searches for tasks containing the specified keyword in their description.
+     *
+     * @param keyword The keyword to search for (case-insensitive).
+     * @return A new TaskList containing only the matching tasks.
+     */
+    public TaskList findTasks(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        // Convert the keyword to lowercase for case-insensitive comparison
+        String lowerCaseKeyword = keyword.toLowerCase();
+
+        for (Task task : this.tasks) {
+            // Check if the task's description contains the keyword
+            if (task.getDescription().toLowerCase().contains(lowerCaseKeyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        // Return a new TaskList wrapping the matching tasks
+        return new TaskList(matchingTasks);
+    }
+
+    /**
      * Deletes a task by its 1-based index (user input).
      * @param oneBasedIndex The 1-based index of the task to delete.
      * @return The deleted task.
