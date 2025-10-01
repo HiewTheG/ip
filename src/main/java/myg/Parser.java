@@ -59,6 +59,14 @@ public class Parser {
                 handleMark(arguments, tasks, ui, storage, false);
                 break;
 
+            case "find":
+                if (arguments.isEmpty()) {
+                    throw new MyGException("Please specify a keyword to search for.");
+                }
+                TaskList matchingTasks = tasks.findTasks(arguments);
+                handleFind(matchingTasks, ui);
+                break;
+
             default:
                 throw new MyGException("I'm sorry, but I don't know what that means :-(");
         }
