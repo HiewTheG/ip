@@ -15,6 +15,11 @@ import java.util.List;
 public class Storage {
     private final Path filePath;
 
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The path to the file used for storing task data.
+     */
     public Storage(String filePath) {
         this.filePath = Paths.get(filePath);
     }
@@ -25,6 +30,7 @@ public class Storage {
      * @throws MyGException If an error occurs during loading or data is corrupted.
      */
     public List<Task> load() throws MyGException {
+        // ... (existing implementation)
         List<Task> tasks = new ArrayList<>();
 
         try {
@@ -62,6 +68,7 @@ public class Storage {
      * @param tasks The TaskList containing the tasks to save.
      */
     public void save(TaskList tasks) {
+        // ... (existing implementation)
         try {
             // Ensure data directory exists (again, though load() should cover it)
             if (Files.notExists(filePath.getParent())) {
@@ -80,10 +87,15 @@ public class Storage {
     }
 
     /**
-     * Helper method to parse a single line from the data file into a Task object.
-     * (Retained the logic from MyG.java, now in Storage).
+     * Parses a single line from the data file into a Task object.
+     * This method is considered non-trivial due to the complex file parsing and error checking logic.
+     *
+     * @param line The single line string read from the file.
+     * @return The constructed Task object.
+     * @throws MyGException If the line format is invalid or data is corrupted.
      */
     private Task parseTaskFromFile(String line) throws MyGException {
+        // ... (existing implementation)
         // Split on ' | ' to strictly match the file format
         String[] parts = line.split(" \\| ", -1);
         if (parts.length < 3) {
