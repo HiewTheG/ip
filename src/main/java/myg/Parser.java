@@ -70,6 +70,10 @@ public class Parser {
                 handleFind(matchingTasks, ui);
                 break;
 
+            case "delete":
+                handleDelete(arguments, tasks, ui, storage);
+                break;
+
             default:
                 throw new MyGException("I'm sorry, but I don't know what that means :-(");
         }
@@ -198,6 +202,39 @@ public class Parser {
 
         System.out.println("  " + task);
         ui.showLine();
+        storage.save(tasks);
+    }
+    /**
+     * Parses the argument for the 'delete' command, removes the task, and saves the list.
+     *
+     * @param arguments The part of the command after "delete".
+     * @param tasks The TaskList to modify.
+     * @param ui The Ui object for display.
+     * @param storage The Storage object for saving changes.
+     * @throws MyGException If the task number is invalid or out of range.
+     */
+    private static void handleDelete(String arguments, TaskList tasks, Ui ui, Storage storage) throws MyGException {
+        if (arguments.isEmpty()) {
+            throw new MyGException("Please provide the task number to delete.");
+        }
+
+        int index;
+        try {
+            index = Integer.parseInt(arguments.trim());
+        } catch (NumberFormatException nfe) {
+            throw new MyGException("Task number must be an integer.");
+        }
+
+        // Call the deleteTask method from TaskList
+        Task deletedTask = tasks.deleteTask(index);
+
+        ui.showLine();
+        System.out.println(" Noted. I've removed this task:");
+        System.out.println("  " + deletedTask);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        ui.showLine();
+
+        // Save the updated list to the file
         storage.save(tasks);
     }
 }
