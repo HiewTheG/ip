@@ -15,9 +15,10 @@ public class Parser {
      * @param ui The Ui object for display.
      * @param storage The Storage object for saving changes.
      * @return true if the program should exit, false otherwise.
-     * @throws MyGException If the command is invalid.
+     * @throws MyGException If the command is invalid or arguments are missing.
      */
     public static boolean parseAndExecute(String fullCommand, TaskList tasks, Ui ui, Storage storage) throws MyGException {
+        // ... (existing implementation)
         String command = fullCommand.split("\\s+")[0].toLowerCase();
         String arguments = fullCommand.substring(command.length()).trim();
 
@@ -75,6 +76,13 @@ public class Parser {
         return false;
     }
 
+    /**
+     * Displays the results of a find operation to the user.
+     * This method is considered non-trivial due to output formatting logic.
+     *
+     * @param matchingTasks The TaskList containing the tasks that match the search keyword.
+     * @param ui The Ui object for display.
+     */
     private static void handleFind(TaskList matchingTasks, Ui ui) {
         ui.showLine();
         if (matchingTasks.size() == 0) {
@@ -89,6 +97,16 @@ public class Parser {
         ui.showLine();
     }
 
+    /**
+     * Parses the arguments for a 'deadline' command, creates the task, and saves the list.
+     * This method is considered non-trivial due to command parsing logic.
+     *
+     * @param arguments The part of the command after "deadline".
+     * @param tasks The TaskList to add the task to.
+     * @param ui The Ui object for display.
+     * @param storage The Storage object for saving changes.
+     * @throws MyGException If the format is incorrect or arguments are empty.
+     */
     private static void handleDeadline(String arguments, TaskList tasks, Ui ui, Storage storage) throws MyGException {
         int byIndex = arguments.toLowerCase().indexOf("/by");
         if (byIndex == -1) {
@@ -109,6 +127,16 @@ public class Parser {
         storage.save(tasks);
     }
 
+    /**
+     * Parses the arguments for an 'event' command, creates the task, and saves the list.
+     * This method is considered non-trivial due to command parsing logic.
+     *
+     * @param arguments The part of the command after "event".
+     * @param tasks The TaskList to add the task to.
+     * @param ui The Ui object for display.
+     * @param storage The Storage object for saving changes.
+     * @throws MyGException If the format is incorrect or arguments are empty.
+     */
     private static void handleEvent(String arguments, TaskList tasks, Ui ui, Storage storage) throws MyGException {
         String lower = arguments.toLowerCase();
         int fromIndex = lower.indexOf("/from");
@@ -135,6 +163,17 @@ public class Parser {
         storage.save(tasks);
     }
 
+    /**
+     * Parses the arguments for 'mark' or 'unmark' commands, updates the task, and saves the list.
+     * This method is considered non-trivial due to task manipulation and error handling.
+     *
+     * @param arguments The part of the command after "mark" or "unmark".
+     * @param tasks The TaskList to modify.
+     * @param ui The Ui object for display.
+     * @param storage The Storage object for saving changes.
+     * @param isMark True if the command is 'mark', false for 'unmark'.
+     * @throws MyGException If the task number is invalid or out of range.
+     */
     private static void handleMark(String arguments, TaskList tasks, Ui ui, Storage storage, boolean isMark) throws MyGException {
         if (arguments.isEmpty()) {
             throw new MyGException("Please provide the task number to " + (isMark ? "mark" : "unmark") + ".");

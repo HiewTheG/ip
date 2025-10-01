@@ -2,6 +2,10 @@ package myg;
 
 import java.util.List;
 
+/**
+ * The main class for the MyG chatbot application.
+ * MyG orchestrates the interaction between UI, Storage, TaskList, and Parser components.
+ */
 public class MyG {
     // Hard-coded file path for the storage file
     private static final String FILE_PATH = "data/myg.txt";
@@ -30,6 +34,7 @@ public class MyG {
 
     /**
      * Main execution loop of the chatbot.
+     * Reads user commands, parses them, executes the corresponding action, and handles exceptions.
      */
     public void run() {
         ui.showWelcome();
@@ -49,6 +54,11 @@ public class MyG {
         ui.closeScanner();
     }
 
+    /**
+     * The entry point of the MyG application.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         // Instantiate MyG with the file path and start the run loop
         new MyG(FILE_PATH).run();
