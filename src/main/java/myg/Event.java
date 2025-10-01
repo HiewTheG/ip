@@ -14,6 +14,12 @@ public class Event extends Task {
     }
 
     @Override
+    public String toFileFormat() {
+        // Using two extra pipes for from and to to allow full reconstruction
+        return "E | " + getFileStatus() + " | " + description + " | " + from + " - " + to;
+    }
+
+    @Override
     public String toString()
     {
         return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
