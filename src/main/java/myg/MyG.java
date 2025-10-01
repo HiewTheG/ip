@@ -1,10 +1,30 @@
 package myg;
 
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 
 public class MyG {
     private static final String DATA_DIR = "data";
     private static final String TASK_FILE = "data/myg.txt";
+
+    /** ---------------- Save tasks to file ---------------- */
+    public void saveTasks(Task[] tasks, int taskCount) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TASK_FILE))) {
+            for (int i = 0; i < taskCount; i++) {
+                writer.write(tasks[i].toFileString()); // make a method that outputs "T | 1 | read book"
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         /** ---------------- Response blocks ---------------- */
@@ -101,7 +121,7 @@ public class MyG {
                     System.out.println(" " + tasks[taskCount - 1]);
                     System.out.println("Now you have " + taskCount + " tasks in the list.");
                     System.out.println("____________________________________________________________");
-                    save(tasks, taskCount);
+                    saveTasks(tasks, taskCount);
                 }
                 else if (line.toLowerCase().startsWith("event")) {
                     if (line.equalsIgnoreCase("event")) {
@@ -168,7 +188,7 @@ public class MyG {
                     System.out.println(" Aight bro, I've marked this task as not done yet:");
                     System.out.println("  " + tasks[index]);
                     System.out.println("____________________________________________________________");
-                    save(tasks, taskCount);
+                    saveTasks(tasks, taskCount);
                 }
                 else {
                     throw new MyGException("OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -190,11 +210,44 @@ public class MyG {
     }
 
     /** ---------------- Helper methods for file I/O ---------------- */
-    // Parse a task line from file into a Task object
-    private static Task parseTaskFromFile(String line) throws MyGException {
-        // Format: TYPE | isDone | desc | by/from/to
-        // Example: T|1|Buy milk
-        // Example: D|0|Submit homework|2025-10-01
-        // Example: E|1|Party|2025-10-01|2025-10-02
+    private static Task parseTaskFromFile(String line) {
+        try {
+            String[] parts = line.split("\\|");
+            if (parts.length < 3) {
+                throw new MyGException("Invalid task format in file");
+            }
+
+            String type = parts[0].trim();
+            boolean isDone = parts[1].trim().equals("1");
+            String desc = parts[2].trim();
+
+            Task task = null;
+
+            switch (type) {
+                case "T":
+                    task = new Todo(desc);
+                    break;
+                case "D":
+                    if (parts.length < 4) throw new MyGException("Invalid deadline format");
+                    String by = parts[3].trim();
+                    task = new Deadline(desc, by);
+                    break;
+                case "E":
+                    if (parts.length < 5) throw new MyGException("Invalid event format");
+                    String from = parts[3].trim();
+                    String to = parts[4].trim();
+                    task = new Event(desc, from, to);
+                    break;
+                default:
+                    throw new MyGException("Unknown task type: " + type);
+            }
+
+            if (isDone) task.markAsDone();
+
+            return task;
+        } catch (Exception e) {
+            System.out.println("Skipping corrupted line in file: " + line);
+            return null; // skip corrupted lines
+        }
     }
-}
+
