@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains the task list, which includes operations to add/delete/mark tasks.
+ * Contains the task list, which includes operations to add/delete/mark/find tasks.
  */
 public class TaskList {
     private final List<Task> tasks;
@@ -24,18 +24,39 @@ public class TaskList {
         this.tasks = tasks;
     }
 
+    /**
+     * Returns the underlying list of tasks.
+     *
+     * @return The List of Task objects.
+     */
     public List<Task> getTasks() {
         return tasks;
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return The size of the task list.
+     */
     public int size() {
         return tasks.size();
     }
 
+    /**
+     * Adds a task to the list.
+     *
+     * @param t The task to be added.
+     */
     public void addTask(Task t) {
         tasks.add(t);
     }
 
+    /**
+     * Retrieves a task from the list by its 0-based index.
+     *
+     * @param index The 0-based index of the task.
+     * @return The Task object at the specified index.
+     */
     public Task getTask(int index) {
         return tasks.get(index);
     }
@@ -104,6 +125,11 @@ public class TaskList {
         return task;
     }
 
+    /**
+     * Prints the entire list of tasks to the console using the Ui component.
+     *
+     * @param ui The Ui object used for displaying output formatting.
+     */
     public void listTasks(Ui ui) {
         ui.showLine();
         System.out.println(" Here are the tasks in your list:");
